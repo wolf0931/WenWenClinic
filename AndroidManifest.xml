@@ -25,9 +25,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+    <!-- <permission android:name="android.permission.BAIDU_LOCATION_SERVICE" /> -->
 
-    <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+   <!--  <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" /> -->
 
     <application
         android:name="DemoApplication"
@@ -319,10 +319,10 @@
         <service android:name="com.easemob.chat.EMChatService" />
 
         <!-- 百度地图所需的service -->
-        <service
+      <!--   <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
+            android:process=":remote" /> -->
 
         <!-- 添加UmengAppkey -->
         <meta-data
