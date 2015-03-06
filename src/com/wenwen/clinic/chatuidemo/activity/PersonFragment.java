@@ -13,6 +13,10 @@
  */
 package com.wenwen.clinic.chatuidemo.activity;
 
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,14 +27,19 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easemob.EMCallBack;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
 import com.wenwen.clinic.chatuidemo.DemoApplication;
 import com.wenwen.clinic.chatuidemo.R;
+import com.wenwen.clinic.chatuidemo.utils.HttpClientRequest;
+import com.wenwen.clinic.chatuidemo.utils.Urls;
 import com.wenwen.clinic.debug.DebugLog;
 
 /**
@@ -50,6 +59,8 @@ public class PersonFragment extends Fragment implements OnClickListener {
     private RelativeLayout layout_advice;
     private RelativeLayout layout_statement;
     private Button btn_logout;
+    private TextView tv_name;
+    private ProgressDialog pd;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +73,75 @@ public class PersonFragment extends Fragment implements OnClickListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
+        getdata();
+    }
+
+    private void getdata() {
+        // TODO Auto-generated method stub
+        pd = new ProgressDialog(getActivity());
+        pd.setMessage("正在获取...");
+        RequestParams params = new RequestParams();
+        params.put("uid", DemoApplication.getInstance().getUserUid());
+        params.put("flag", "2");
+        HttpClientRequest.post(Urls.GETUSERDETAILS, params, 3000,
+                new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onStart() {
+                        // TODO Auto-generated method stub
+                        super.onStart();
+                        pd.show();
+                    }
+                    @Override
+                    public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+                        // TODO Auto-generated method stub
+                        /*
+                         *  * @ret int 0 参数有误 1 成功 -1 用户不存在 -2 密码不正确 -3 未知错误
+                         *    /*
+                         *  * @ret int 0 参数有误 1 成功 -1 用户不存在 -2 密码不正确 -3 未知错误
+                         *  ﻿{"ret":"1","account_id":"1","account_username":"13646875594",
+                         *  "account_name":"\u674e\u56db","account_image":"","account_sex":"1",
+                         *  "account_wedding":"0","account_occupation_own":"\u533b\u751f",
+                         *  "account_heredity":"0","account_irritability":"0","account_info":"\u674e\u56db",
+                         *  "account_report_url":"",
+                         *  "account_birth_date":"0000-00-00 00:00:00"}
+                         *  
+                         */
+                        try {
+                            String res = new String(arg2);
+                            DebugLog.i("res", res);
+                            final JSONObject result = new JSONObject(res);
+                            switch (Integer.valueOf(result.getString("ret"))) {
+                            case 1:
+                                tv_name.setText(result.getString("account_name"));
+                                break;
+                            default:
+                                break;
+
+                            }
+                        } catch (NumberFormatException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        // TODO Auto-generated method stub
+                        super.onFinish();
+                        pd.dismiss();
+                    }
+
+                    @Override
+                    public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+                            Throwable arg3) {
+                        // TODO Auto-generated method stub
+
+                    }
+                });
+    
     }
 
     @Override
@@ -74,6 +154,7 @@ public class PersonFragment extends Fragment implements OnClickListener {
 
         } else if (v == layout_health_data) {
             Intent intent = new Intent(getActivity(), PersonalData.class);
+            Bundle bundle = new Bundle();
             startActivity(intent);
         } else if (v == layout_change_pwd) {
             Intent intent = new Intent(getActivity(), ChangPwd.class);
@@ -137,6 +218,8 @@ public class PersonFragment extends Fragment implements OnClickListener {
 
         btn_logout = (Button) getView().findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(this);
+        
+        tv_name = (TextView) getView().findViewById(R.id.tv_name);
     }
 
     @Override

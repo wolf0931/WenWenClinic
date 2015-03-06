@@ -3,18 +3,29 @@ package com.wenwen.clinic.chatuidemo.domain;
 import java.io.Serializable;
 
 public class AcountInfo implements Serializable {
-    /**
+    /**{"ret":"1","account_id":"1","account_username":"13646875594",
+     *  "account_name":"\u674e\u56db","account_image":"","account_sex":"1",
+     *  "account_wedding":"0","account_occupation_own":"\u533b\u751f",
+     *  "account_heredity":"0","account_irritability":"0","account_info":"\u674e\u56db",
+     *  "account_report_url":"",
+     *  "account_birth_date":"0000-00-00 00:00:00"}
      * 
      */
     private static final long serialVersionUID = 1L;
-    private String account_image;
     private String account_id;
+    private String account_username;
+    private String account_name;
+    private String account_image;
+    private String account_wedding;
+    private String account_sex;
+    private String account_occupation_own;
+    private String account_heredity;
+    private String account_irritability;
+    private String account_report_url;
     private String account_job;
     private String account_info;
-    private String account_username;
     private String account_hospital;
     private String account_department;
-    private String account_name;
 
     public String getAccount_image() {
         return account_image;
@@ -80,4 +91,57 @@ public class AcountInfo implements Serializable {
         this.account_name = account_name;
     }
 
+    public String getAccount_wedding() {
+        return account_wedding;
+    }
+
+    public void setAccount_wedding(String account_wedding) {
+        this.account_wedding = account_wedding;
+    }
+
+    public String getAccount_sex() {
+        return account_sex;
+    }
+
+    public void setAccount_sex(String account_sex) {
+        this.account_sex = account_sex;
+    }
+
+    public String getAccount_occupation_own() {
+        return account_occupation_own;
+    }
+
+    public void setAccount_occupation_own(String account_occupation_own) {
+        this.account_occupation_own = account_occupation_own;
+    }
+
+    public String getAccount_heredity() {
+        return account_heredity;
+    }
+
+    public void setAccount_heredity(String account_heredity) {
+        this.account_heredity = account_heredity;
+    }
+
+    public String getAccount_irritability() {
+        return account_irritability;
+    }
+
+    public void setAccount_irritability(String account_irritability) {
+        this.account_irritability = account_irritability;
+    }
+
+    public String getAccount_report_url() {
+        return account_report_url;
+    }
+
+    public void setAccount_report_url(String account_report_url) {
+        this.account_report_url = account_report_url;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+    
+    
 }
